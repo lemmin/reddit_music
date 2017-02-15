@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Reddit Music</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<script>
+	(function ($) {
+		// URL comtaining >52 songs breaks JJ
+		var url = 'https://www.reddit.com/r/Music/search/.json?q=flair%3A"music+streaming"+OR+flair%3A"new+release"+OR+flair%3A"video"&sort=top&restrict_sr=on&limit=52&t=';
+
+		var links = [
+			{timeframe: 'day', title: 'Today'},
+			{timeframe: 'week', title: 'This Week'},
+			{timeframe: 'month', title: 'This Month'},
+			{timeframe: 'year', title: 'This Year'}
+		];
+
+		for (var i=0; i<links.length; i++) {
+			var link = links[i];
+			getReddit(link.timeframe, function (title) {
+				return function (res) {
+					var songs = processSongs(res);
+					var l = buildPlaylist(songs, title);
+					document.body.innerHTML += l + '<br/>';
+				};
+			}(link.title));
+		}
+
+		function processSongs (res) {
+			//console.log(res);
+			var songs = [];
+			for (var i=0; i<res.data.children.length; i++) {
+				var post = res.data.children[i].data;
+				var m = post.url.match(/(?:(?:v[=\/])|(?:\.be\/))([a-zA-Z0-9\-_]{11})/);
+				if (m) {
+					songs.push(m[1]);
+				}
+			}
+			return songs;
+		}
+
+		function getReddit(timeframe, callback) {
+			$.getJSON(url + timeframe, callback);
+		}
+
+		function buildPlaylist(songs, title) {
+			return '<a href="http://jumpjams.com/#v/' + songs.join(',') + '">'+title+'</a>';
+		}
+	}(jQuery));
+	</script>
+</head>
+<body>
+</body>
+</html>
