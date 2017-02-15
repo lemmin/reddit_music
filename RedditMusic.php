@@ -3,9 +3,6 @@ date_default_timezone_set('America/Los_Angeles');
 require('db.php');
 define('REDDIT_MUSIC_SEARCH_URL', 'https://www.reddit.com/r/Music/search/.json');
 
-$rm = new RedditMusic(['limit' => '100']);
-$rm->getDay();
-
 class RedditMusic {
 	private $options = [
 				'q' => 'flair%3A"music+streaming"+OR+flair%3A"new+release"+OR+flair%3A"video"',
