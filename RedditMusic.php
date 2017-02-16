@@ -17,7 +17,18 @@ class RedditMusic {
 		}
 	}
 	public function getDay() {
-		$timeframe = 'day';
+		$this->getSongs('day');
+	}
+	public function getWeek() {
+		$this->getSongs('week');
+	}
+	public function getMonth() {
+		$this->getSongs('month');
+	}
+	public function getYear() {
+		$this->getSongs('year');
+	}
+	public function getSongs($timeframe) {
 		$this->setOption('t', $timeframe);
 		$songs = $this->search()->data->children;
 		$songs = $this->parseSongs($songs);
