@@ -4,7 +4,7 @@ include 'db.php';
 
 $db = new mysqli(MYSQL_HOST, MYSQL_USER, MYSQL_PASS, MYSQL_DB);
 
-$q = 'SELECT * FROM videos WHERE timeframe = "day" LIMIT 50';
+$q = 'SELECT * FROM videos WHERE timeframe = "day"';
 $result = $db->query($q) or die($db->error . ': ' . $q);
 
 $videos = [];
@@ -16,7 +16,8 @@ while ($row = $result->fetch_assoc()) {
 }
 
 foreach ($videos as $date => $day) {
-	echo '<a href="http://jumpjams.com/#v/' . implode(',', $day) . '">' . $date . '</a><br/>';
+	$ids = implode(',', array_slice($day, 0, 50));
+	echo '<a href="http://jumpjams.com/#v/' . $ids . '">' . $date . '</a><br/>';
 }
 
 $db->close();
