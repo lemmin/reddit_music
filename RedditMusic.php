@@ -31,6 +31,12 @@ class RedditMusic {
 	public function getSongs($timeframe) {
 		$this->setOption('t', $timeframe);
 		$songs = $this->search()->data->children;
+		if (empty($songs)) {
+			// Failed.
+			// TODO: retry?
+			echo 'Search failed.';
+			return false;
+		}
 		$songs = $this->parseSongs($songs);
 		//print_r($songs);
 		foreach ($songs as $i => $song) {
