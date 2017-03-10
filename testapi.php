@@ -15,7 +15,7 @@ getVideos('month');
 function getVideos($timeframe) {
 	$db = new mysqli(MYSQL_HOST, MYSQL_USER, MYSQL_PASS, MYSQL_DB);
 
-	$q = 'SELECT * FROM videos WHERE timeframe = "'.$timeframe.'" ORDER by score DESC';
+	$q = 'SELECT * FROM videos WHERE timeframe = "'.$timeframe.'" ORDER by day DESC, score DESC';
 	$result = $db->query($q) or die($db->error . ': ' . $q);
 
 	$videos = [];
